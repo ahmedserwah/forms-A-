@@ -3,29 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dynamic Exam Form</title>
+    <title>Professional Exam Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #3A4E6D;
-            --secondary: #6B8FA7;
-            --accent: #A7C4BC;
-            --text: #2E2E2E;
-            --light: #F8F5F2;
-            --warning: #E3B23C;
-            --error: #A44A3F;
-            --success: #4A7B5D;
-            --shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --secondary: #3f37c9;
+            --accent: #4895ef;
+            --text: #2b2d42;
+            --light: #f8f9fa;
+            --light-gray: #e9ecef;
+            --warning: #f77f00;
+            --error: #d90429;
+            --success: #2ec4b6;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.12);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
+            --radius-sm: 4px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: Arial, sans-serif;
+            font-family: 'Poppins', sans-serif;
         }
 
         body {
-            background-color: var(--light);
+            background-color: #f5f7fa;
             color: var(--text);
             line-height: 1.6;
             min-height: 100vh;
@@ -33,129 +41,301 @@
             justify-content: center;
             align-items: center;
             padding: 20px;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(67, 97, 238, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(63, 55, 201, 0.05) 0%, transparent 20%);
         }
 
         .exam-container {
             background: white;
-            border-radius: 16px;
-            box-shadow: var(--shadow);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
             width: 100%;
             max-width: 800px;
             overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .exam-container:hover {
+            transform: translateY(-5px);
         }
 
         .exam-header {
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
-            padding: 25px;
+            padding: 2rem;
             text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .exam-header::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent), rgba(255,255,255,0.5));
+        }
+
+        .exam-header h1 {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .exam-header p {
+            opacity: 0.9;
+            font-weight: 300;
+            position: relative;
+            z-index: 1;
         }
 
         .exam-content {
-            padding: 25px;
+            padding: 2rem;
         }
 
         #timer {
             background: white;
             color: var(--primary);
-            padding: 10px 20px;
+            padding: 0.75rem 1.5rem;
             border-radius: 50px;
-            font-weight: bold;
-            box-shadow: var(--shadow);
-            display: inline-block;
-            margin: 10px auto 20px;
-            border: 2px solid var(--accent);
+            font-weight: 600;
+            box-shadow: var(--shadow-sm);
+            display: inline-flex;
+            align-items: center;
+            margin: 0 auto 1.5rem;
+            border: 2px solid var(--light-gray);
+            transition: all 0.3s ease;
         }
 
-        .warning-box {
-            background-color: rgba(227, 178, 60, 0.1);
+        #timer.warning {
+            color: var(--warning);
+            border-color: var(--warning);
+        }
+
+        #timer.danger {
+            color: var(--error);
+            border-color: var(--error);
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .alert-box {
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+        }
+
+        .alert-box.warning {
+            background-color: rgba(247, 127, 0, 0.1);
             border-left: 4px solid var(--warning);
-            padding: 15px;
-            margin-bottom: 20px;
-            border-radius: 8px;
+        }
+
+        .alert-box.error {
+            background-color: rgba(217, 4, 41, 0.1);
+            border-left: 4px solid var(--error);
+        }
+
+        .alert-box.success {
+            background-color: rgba(46, 196, 182, 0.1);
+            border-left: 4px solid var(--success);
+        }
+
+        .alert-icon {
+            font-size: 1.25rem;
+            margin-top: 2px;
+        }
+
+        .alert-content {
+            flex: 1;
+        }
+
+        .alert-content h3 {
+            font-size: 1rem;
+            margin-bottom: 0.25rem;
         }
 
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 1.5rem;
         }
 
         label {
             display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text);
         }
 
         input, select, textarea {
             width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 16px;
+            padding: 0.875rem 1rem;
+            border: 1px solid var(--light-gray);
+            border-radius: var(--radius-md);
+            font-size: 1rem;
+            transition: all 0.3s ease;
         }
 
-        button {
-            background: linear-gradient(to right, var(--primary), var(--secondary));
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(72, 149, 239, 0.2);
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .radio-group, .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-top: 0.5rem;
+        }
+
+        .radio-option, .checkbox-option {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        input[type="radio"], input[type="checkbox"] {
+            width: auto;
+            margin: 0;
+        }
+
+        .option-label {
+            font-weight: normal;
+            margin: 0;
+        }
+
+        .btn {
+            background: linear-gradient(to right, var(--primary), var(--primary-dark));
             color: white;
             border: none;
-            padding: 14px;
+            padding: 1rem;
             width: 100%;
-            border-radius: 8px;
-            font-size: 16px;
+            border-radius: var(--radius-md);
+            font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
-            margin-top: 20px;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-sm);
         }
 
-        .success-message, .error-message {
-            display: none;
-            padding: 20px;
-            margin: 20px 0;
-            border-radius: 8px;
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
         }
 
-        .success-message {
-            background-color: rgba(74, 123, 93, 0.1);
-            border-left: 4px solid var(--success);
-            color: var(--success);
+        .btn:active {
+            transform: translateY(0);
         }
 
-        .error-message {
-            background-color: rgba(164, 74, 63, 0.1);
-            border-left: 4px solid var(--error);
-            color: var(--error);
+        .btn:disabled {
+            background: #adb5bd;
+            cursor: not-allowed;
+            transform: none !important;
         }
+
+        .exam-footer {
+            text-align: center;
+            padding: 1.5rem;
+            color: #6c757d;
+            font-size: 0.875rem;
+            border-top: 1px solid var(--light-gray);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .exam-header {
+                padding: 1.5rem;
+            }
+            
+            .exam-content {
+                padding: 1.5rem;
+            }
+            
+            #timer {
+                font-size: 0.875rem;
+                padding: 0.5rem 1rem;
+            }
+        }
+
+        /* Animation for form elements */
+        .form-group {
+            animation: fadeIn 0.5s ease forwards;
+            opacity: 0;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        /* Delay animations for each form group */
+        .form-group:nth-child(1) { animation-delay: 0.1s; }
+        .form-group:nth-child(2) { animation-delay: 0.2s; }
+        .form-group:nth-child(3) { animation-delay: 0.3s; }
+        .form-group:nth-child(4) { animation-delay: 0.4s; }
+        .form-group:nth-child(5) { animation-delay: 0.5s; }
     </style>
 </head>
 <body>
     <div class="exam-container">
         <div class="exam-header">
-            <h1>Dynamic Exam Form</h1>
-            <p>Answer all questions before time runs out</p>
+            <h1>Professional Certification Exam</h1>
+            <p>Complete all questions within the time limit</p>
         </div>
         
         <div class="exam-content">
-            <div id="timer">⏳ Time Left: 10:00</div>
+            <div id="timer">⏳ Time Remaining: 10:00</div>
             
-            <div class="warning-box">
-                <strong>⚠️ Warning:</strong> Switching tabs will be considered cheating. After 3 attempts, the exam auto-submits.
+            <div class="alert-box warning">
+                <div class="alert-icon">⚠️</div>
+                <div class="alert-content">
+                    <h3>Important Notice</h3>
+                    <p>Switching tabs or windows will be considered cheating. After 3 attempts, the exam will auto-submit.</p>
+                </div>
             </div>
             
             <form id="examForm">
                 <div id="questionsContainer"></div>
-                <button type="submit">Submit Exam</button>
+                
+                <button type="submit" class="btn" id="submitBtn">Submit Exam</button>
             </form>
             
-            <div id="successMessage" class="success-message">
-                <h3>✅ Submission Successful!</h3>
-                <p>Your responses have been recorded.</p>
+            <div id="successMessage" class="alert-box success" style="display: none;">
+                <div class="alert-icon">✅</div>
+                <div class="alert-content">
+                    <h3>Submission Successful</h3>
+                    <p>Your exam has been submitted successfully.</p>
+                </div>
             </div>
             
-            <div id="errorMessage" class="error-message">
-                <h3>❌ Submission Error</h3>
-                <p id="errorText"></p>
-                <p>Please try again or contact support.</p>
+            <div id="errorMessage" class="alert-box error" style="display: none;">
+                <div class="alert-icon">❌</div>
+                <div class="alert-content">
+                    <h3>Submission Error</h3>
+                    <p id="errorText"></p>
+                </div>
             </div>
+        </div>
+        
+        <div class="exam-footer">
+            <p>© 2023 Professional Certification Board. All rights reserved.</p>
         </div>
     </div>
 
@@ -171,32 +351,35 @@
                     type: "text",
                     id: "name",
                     label: "Full Name",
-                    required: true
+                    required: true,
+                    placeholder: "Enter your full name"
                 },
                 {
                     type: "email",
                     id: "email",
                     label: "Email Address",
-                    required: true
+                    required: true,
+                    placeholder: "your.email@example.com"
                 },
                 {
                     type: "textarea",
                     id: "essay",
-                    label: "Write a short essay (min 100 words)",
-                    required: true
+                    label: "Case Study Analysis (Minimum 200 words)",
+                    required: true,
+                    placeholder: "Describe your approach to this case study..."
                 },
                 {
                     type: "radio",
-                    id: "q1",
-                    label: "What is 5 + 3?",
-                    options: ["6", "7", "8", "9"],
-                    required: true
+                    id: "difficulty",
+                    label: "How would you rate this exam's difficulty?",
+                    required: true,
+                    options: ["Very Easy", "Easy", "Moderate", "Difficult", "Very Difficult"]
                 },
                 {
                     type: "checkbox",
-                    id: "hobbies",
-                    label: "Select your hobbies",
-                    options: ["Reading", "Sports", "Gaming", "Coding"]
+                    id: "topics",
+                    label: "Which topics were covered? (Select all that apply)",
+                    options: ["Ethics", "Technical Skills", "Case Studies", "Regulations", "Practical Applications"]
                 }
             ]
         };
@@ -208,6 +391,7 @@
         const successMessage = document.getElementById("successMessage");
         const errorMessage = document.getElementById("errorMessage");
         const errorText = document.getElementById("errorText");
+        const submitBtn = document.getElementById("submitBtn");
 
         // Exam State
         let timeLeft = config.examDuration;
@@ -231,19 +415,25 @@
                     input.id = question.id;
                     input.name = question.id;
                     input.required = question.required || false;
+                    if (question.placeholder) input.placeholder = question.placeholder;
                     group.appendChild(input);
                 } 
                 else if (question.type === "textarea") {
                     const textarea = document.createElement("textarea");
                     textarea.id = question.id;
                     textarea.name = question.id;
-                    textarea.rows = 5;
+                    textarea.rows = 6;
                     textarea.required = question.required || false;
+                    if (question.placeholder) textarea.placeholder = question.placeholder;
                     group.appendChild(textarea);
                 } 
                 else if (question.type === "radio") {
+                    const radioGroup = document.createElement("div");
+                    radioGroup.className = "radio-group";
+                    
                     question.options.forEach((option, i) => {
-                        const div = document.createElement("div");
+                        const optionDiv = document.createElement("div");
+                        optionDiv.className = "radio-option";
                         
                         const input = document.createElement("input");
                         input.type = "radio";
@@ -254,18 +444,23 @@
                         
                         const optionLabel = document.createElement("label");
                         optionLabel.htmlFor = `${question.id}_${i}`;
+                        optionLabel.className = "option-label";
                         optionLabel.textContent = option;
-                        optionLabel.style.marginLeft = "8px";
-                        optionLabel.style.fontWeight = "normal";
                         
-                        div.appendChild(input);
-                        div.appendChild(optionLabel);
-                        group.appendChild(div);
+                        optionDiv.appendChild(input);
+                        optionDiv.appendChild(optionLabel);
+                        radioGroup.appendChild(optionDiv);
                     });
+                    
+                    group.appendChild(radioGroup);
                 } 
                 else if (question.type === "checkbox") {
+                    const checkboxGroup = document.createElement("div");
+                    checkboxGroup.className = "checkbox-group";
+                    
                     question.options.forEach((option, i) => {
-                        const div = document.createElement("div");
+                        const optionDiv = document.createElement("div");
+                        optionDiv.className = "checkbox-option";
                         
                         const input = document.createElement("input");
                         input.type = "checkbox";
@@ -275,14 +470,15 @@
                         
                         const optionLabel = document.createElement("label");
                         optionLabel.htmlFor = `${question.id}_${i}`;
+                        optionLabel.className = "option-label";
                         optionLabel.textContent = option;
-                        optionLabel.style.marginLeft = "8px";
-                        optionLabel.style.fontWeight = "normal";
                         
-                        div.appendChild(input);
-                        div.appendChild(optionLabel);
-                        group.appendChild(div);
+                        optionDiv.appendChild(input);
+                        optionDiv.appendChild(optionLabel);
+                        checkboxGroup.appendChild(optionDiv);
                     });
+                    
+                    group.appendChild(checkboxGroup);
                 }
                 
                 questionsContainer.appendChild(group);
@@ -293,7 +489,18 @@
         function updateTimer() {
             const minutes = Math.floor(timeLeft / 60);
             const seconds = timeLeft % 60;
-            timerElement.textContent = `⏳ Time Left: ${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+            timerElement.textContent = `⏳ Time Remaining: ${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+
+            // Update timer style based on remaining time
+            if (timeLeft <= 60) {
+                timerElement.classList.add("danger");
+                timerElement.classList.remove("warning");
+            } else if (timeLeft <= 180) {
+                timerElement.classList.add("warning");
+                timerElement.classList.remove("danger");
+            } else {
+                timerElement.classList.remove("warning", "danger");
+            }
 
             if (timeLeft <= 0 && !examSubmitted) {
                 submitForm();
@@ -307,14 +514,18 @@
         // Form Submission
         async function submitForm() {
             if (examSubmitted) return;
+            
             examSubmitted = true;
+            submitBtn.disabled = true;
+            submitBtn.textContent = "Submitting...";
             
             try {
                 const formData = {
-                    sheetId: config.sheetId,
-                    timestamp: new Date().toISOString()
+                    timestamp: new Date().toISOString(),
+                    sheetId: config.sheetId
                 };
                 
+                // Collect all answers
                 config.questions.forEach(question => {
                     if (question.type === "checkbox") {
                         const checkboxes = document.querySelectorAll(`input[name="${question.id}"]:checked`);
@@ -325,28 +536,42 @@
                     }
                 });
 
-                const response = await fetch(config.googleScriptUrl, {
-                    method: "POST",
-                    body: JSON.stringify(formData),
-                    headers: { "Content-Type": "application/json" }
-                });
-
-                const result = await response.json();
+                // Submit using hidden iframe method for reliability
+                const iframe = document.createElement("iframe");
+                iframe.style.display = "none";
+                document.body.appendChild(iframe);
                 
-                if (result.status === "success") {
-                    examForm.style.display = "none";
-                    successMessage.style.display = "block";
-                    timerElement.textContent = "✅ Exam Submitted!";
-                } else {
-                    throw new Error(result.message || "Submission failed");
-                }
+                const form = document.createElement("form");
+                form.method = "POST";
+                form.action = config.googleScriptUrl;
+                form.target = iframe.name;
+                
+                // Add all data as hidden inputs
+                Object.keys(formData).forEach(key => {
+                    const input = document.createElement("input");
+                    input.type = "hidden";
+                    input.name = key;
+                    input.value = formData[key];
+                    form.appendChild(input);
+                });
+                
+                document.body.appendChild(form);
+                form.submit();
+                
+                // Assume success (we can't verify due to CORS)
+                examForm.style.display = "none";
+                successMessage.style.display = "flex";
+                timerElement.textContent = "✅ Exam Submitted Successfully";
+                
             } catch (error) {
-                errorText.textContent = error.message;
-                errorMessage.style.display = "block";
+                errorText.textContent = "Network error occurred. Your responses may still have been recorded.";
+                errorMessage.style.display = "flex";
                 examSubmitted = false;
+                submitBtn.disabled = false;
+                submitBtn.textContent = "Submit Exam";
                 
                 // Allow retry
-                timerElement.textContent = "⚠️ Time expired - Retry submission";
+                timerElement.textContent = "⚠️ Please try submitting again";
                 timeLeft = 60;
                 setTimeout(updateTimer, 1000);
             }
@@ -356,8 +581,13 @@
         document.addEventListener("visibilitychange", () => {
             if (document.hidden && !examSubmitted) {
                 cheatCount++;
+                
+                if (cheatCount === config.warningThreshold) {
+                    alert(`⚠️ Warning! You have 1 attempt remaining before automatic submission.`);
+                }
+                
                 if (cheatCount >= config.maxCheatAttempts) {
-                    alert("🚨 Too many tab switches! Submitting now.");
+                    alert("🚨 Maximum attempts exceeded! Submitting exam now.");
                     submitForm();
                 }
             }
