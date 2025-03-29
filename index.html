@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Exam Form (Auto-Submit & Anti-Cheat)</title>
-    <link href="https://fonts.googleapis.com/css2?family=El+Messiri:wght@400;500;700&display=swap" rel="stylesheet">
+    <title>Dynamic Exam Form</title>
     <style>
         :root {
             --primary: #3A4E6D;
@@ -22,288 +21,141 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'El Messiri', serif;
+            font-family: Arial, sans-serif;
         }
 
         body {
             background-color: var(--light);
             color: var(--text);
-            line-height: 1.8;
+            line-height: 1.6;
             min-height: 100vh;
             display: flex;
-            flex-direction: column;
-            background-image: linear-gradient(rgba(248, 245, 242, 0.9), rgba(248, 245, 242, 0.9)), 
-                              url('https://www.transparenttextures.com/patterns/cream-pixels.png');
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 2rem;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
             justify-content: center;
+            align-items: center;
+            padding: 20px;
         }
 
-        .exam-card {
+        .exam-container {
             background: white;
             border-radius: 16px;
             box-shadow: var(--shadow);
+            width: 100%;
+            max-width: 800px;
             overflow: hidden;
-            border: 1px solid rgba(0, 0, 0, 0.05);
-            transition: all 0.3s ease;
         }
 
-        .exam-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
-        }
-
-        .header {
+        .exam-header {
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
-            padding: 2rem;
+            padding: 25px;
             text-align: center;
-            position: relative;
-            clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
-            margin-bottom: 1rem;
-        }
-
-        h1 {
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
-            font-weight: 700;
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
         }
 
         .exam-content {
-            padding: 1.5rem 2rem 2rem;
+            padding: 25px;
         }
 
         #timer {
             background: white;
             color: var(--primary);
-            padding: 0.8rem 1.5rem;
+            padding: 10px 20px;
             border-radius: 50px;
-            font-size: 1.2rem;
-            font-weight: 700;
+            font-weight: bold;
             box-shadow: var(--shadow);
-            display: inline-flex;
-            align-items: center;
+            display: inline-block;
+            margin: 10px auto 20px;
             border: 2px solid var(--accent);
-            margin: 0 auto 1.5rem;
-            text-align: center;
         }
 
         .warning-box {
-            background-color: rgba(227, 178, 60, 0.08);
-            border-right: 3px solid var(--warning);
-            padding: 1rem;
-            margin-bottom: 1.5rem;
+            background-color: rgba(227, 178, 60, 0.1);
+            border-left: 4px solid var(--warning);
+            padding: 15px;
+            margin-bottom: 20px;
             border-radius: 8px;
-            position: relative;
-            font-size: 1rem;
-            line-height: 1.6;
         }
 
-        .warning-box::before {
-            content: "!";
-            position: absolute;
-            right: -15px;
-            top: 50%;
-            transform: translateY(-50%);
-            background-color: var(--warning);
-            color: white;
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 1.2rem;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-        }
-
-        .warning-box strong {
-            color: var(--warning);
-        }
-
-        .question {
-            margin-bottom: 1.5rem;
+        .form-group {
+            margin-bottom: 20px;
         }
 
         label {
             display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
+            margin-bottom: 8px;
+            font-weight: 600;
             color: var(--primary);
         }
 
-        input[type="text"],
-        input[type="number"],
-        input[type="email"],
-        input[type="password"],
-        select,
-        textarea {
+        input, select, textarea {
             width: 100%;
-            padding: 0.8rem;
+            padding: 12px;
             border: 1px solid #ddd;
             border-radius: 8px;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            background-color: rgba(255, 255, 255, 0.8);
+            font-size: 16px;
         }
 
-        input[type="text"]:focus,
-        input[type="number"]:focus,
-        input[type="email"]:focus,
-        input[type="password"]:focus,
-        select:focus,
-        textarea:focus {
-            border-color: var(--accent);
-            box-shadow: 0 0 0 3px rgba(167, 196, 188, 0.3);
-            outline: none;
-        }
-
-        input[type="checkbox"],
-        input[type="radio"] {
-            margin-right: 0.5rem;
-        }
-
-        button[type="submit"] {
+        button {
             background: linear-gradient(to right, var(--primary), var(--secondary));
             color: white;
             border: none;
-            padding: 1rem;
+            padding: 14px;
             width: 100%;
             border-radius: 8px;
-            font-size: 1.1rem;
-            font-weight: 500;
+            font-size: 16px;
+            font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 1rem;
-            box-shadow: var(--shadow);
+            margin-top: 20px;
         }
 
-        button[type="submit"]:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        .success-message, .error-message {
+            display: none;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
         }
 
-        button[type="submit"]:active {
-            transform: translateY(0);
+        .success-message {
+            background-color: rgba(74, 123, 93, 0.1);
+            border-left: 4px solid var(--success);
+            color: var(--success);
         }
 
-        .footer {
-            text-align: center;
-            margin-top: 2rem;
-            color: var(--secondary);
-            font-size: 0.9rem;
-            padding: 1.5rem;
-        }
-
-        /* Blocked state styling */
-        .blocked-message {
-            text-align: center;
-            padding: 3rem 2rem;
-            background-color: white;
-            border-radius: 16px;
-            box-shadow: var(--shadow);
-            max-width: 600px;
-            margin: 2rem auto;
-            border-top: 4px solid var(--error);
-        }
-
-        .blocked-message h2 {
+        .error-message {
+            background-color: rgba(164, 74, 63, 0.1);
+            border-left: 4px solid var(--error);
             color: var(--error);
-            margin-bottom: 1rem;
-            font-size: 1.8rem;
-        }
-
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .container {
-                padding: 1rem;
-            }
-            
-            .header {
-                padding: 1.5rem;
-                clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
-            }
-            
-            h1 {
-                font-size: 1.5rem;
-            }
-            
-            #timer {
-                font-size: 1rem;
-                padding: 0.6rem 1.2rem;
-            }
-            
-            .exam-content {
-                padding: 1rem 1.5rem 1.5rem;
-            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="exam-card">
-            <div class="header">
-                <h1>Online Examination</h1>
-                <p>Complete the test within the given time</p>
-            </div>
-            
-            <div class="exam-content">
-                <div id="timer">⏳ Time Left: 10:00</div>
-                
-                <div class="warning-box">
-                    <strong>Warning:</strong> Switching tabs or windows will be considered cheating. After 3 attempts, the exam will be automatically submitted.
-                </div>
-                
-                <form id="examForm" action="https://script.google.com/macros/s/YOUR_GOOGLE_SCRIPT_ID/exec" method="post">
-                    <div class="question">
-                        <label for="name">Name:</label>
-                        <input type="text" id="name" name="name" required>
-                    </div>
-
-                    <div class="question">
-                        <label for="math_question">What is 5 + 3?</label>
-                        <input type="number" id="math_question" name="math_question" required>
-                    </div>
-
-                    <div class="question">
-                        <label for="favorite_color">Select your favorite color:</label>
-                        <select id="favorite_color" name="favorite_color">
-                            <option value="Red">Red</option>
-                            <option value="Blue">Blue</option>
-                            <option value="Green">Green</option>
-                        </select>
-                    </div>
-
-                    <div class="question">
-                        <label>Choose your hobbies:</label>
-                        <div style="margin-top: 0.5rem;">
-                            <input type="checkbox" id="reading" name="hobbies" value="Reading">
-                            <label for="reading" style="display: inline; font-weight: normal;">Reading</label>
-                            
-                            <input type="checkbox" id="sports" name="hobbies" value="Sports" style="margin-left: 1rem;">
-                            <label for="sports" style="display: inline; font-weight: normal;">Sports</label>
-                            
-                            <input type="checkbox" id="gaming" name="hobbies" value="Gaming" style="margin-left: 1rem;">
-                            <label for="gaming" style="display: inline; font-weight: normal;">Gaming</label>
-                        </div>
-                    </div>
-
-                    <button type="submit">Submit Exam</button>
-                </form>
-            </div>
+    <div class="exam-container">
+        <div class="exam-header">
+            <h1>Dynamic Exam Form</h1>
+            <p>Answer all questions before time runs out</p>
         </div>
         
-        <div class="footer">
-            <p>© 2023 Online Examination Platform | All Rights Reserved</p>
+        <div class="exam-content">
+            <div id="timer">⏳ Time Left: 10:00</div>
+            
+            <div class="warning-box">
+                <strong>⚠️ Warning:</strong> Switching tabs will be considered cheating. After 3 attempts, the exam auto-submits.
+            </div>
+            
+            <form id="examForm">
+                <div id="questionsContainer"></div>
+                <button type="submit">Submit Exam</button>
+            </form>
+            
+            <div id="successMessage" class="success-message">
+                <h3>✅ Submission Successful!</h3>
+                <p>Your responses have been recorded.</p>
+            </div>
+            
+            <div id="errorMessage" class="error-message">
+                <h3>❌ Submission Error</h3>
+                <p id="errorText"></p>
+                <p>Please try again or contact support.</p>
+            </div>
         </div>
     </div>
 
@@ -311,110 +163,216 @@
         // Configuration
         const config = {
             maxCheatAttempts: 3,
-            warningThreshold: 2,
-            examDuration: 60, // 10 minutes in seconds
-            currentExam: "exam-form"
+            examDuration: 600, // 10 minutes
+            googleScriptUrl: "https://script.google.com/macros/s/AKfycbxRjXph9lEsEUSKsvpOhfpfAz8tf08rXoNnXBlfdGai4D8MAOYZc8ZT6tSg7y_62SCsZw/exec",
+            sheetId: "1DjlKWGqIfgLMnJMF96msD1uH_0SDfvR2KCODNp-2rbw",
+            questions: [
+                {
+                    type: "text",
+                    id: "name",
+                    label: "Full Name",
+                    required: true
+                },
+                {
+                    type: "email",
+                    id: "email",
+                    label: "Email Address",
+                    required: true
+                },
+                {
+                    type: "textarea",
+                    id: "essay",
+                    label: "Write a short essay (min 100 words)",
+                    required: true
+                },
+                {
+                    type: "radio",
+                    id: "q1",
+                    label: "What is 5 + 3?",
+                    options: ["6", "7", "8", "9"],
+                    required: true
+                },
+                {
+                    type: "checkbox",
+                    id: "hobbies",
+                    label: "Select your hobbies",
+                    options: ["Reading", "Sports", "Gaming", "Coding"]
+                }
+            ]
         };
 
         // DOM Elements
         const timerElement = document.getElementById("timer");
         const examForm = document.getElementById("examForm");
+        const questionsContainer = document.getElementById("questionsContainer");
+        const successMessage = document.getElementById("successMessage");
+        const errorMessage = document.getElementById("errorMessage");
+        const errorText = document.getElementById("errorText");
 
-        // State Management
-        function initializeExam() {
-            if (localStorage.getItem("examId") !== config.currentExam) {
-                localStorage.removeItem("cheatCount");
-                localStorage.removeItem("blocked");
-                sessionStorage.clear();
-                localStorage.setItem("examId", config.currentExam);
-                return {
-                    cheatCount: 0,
-                    timeLeft: config.examDuration
-                };
-            }
-            return {
-                cheatCount: localStorage.getItem("cheatCount") ? parseInt(localStorage.getItem("cheatCount")) : 0,
-                timeLeft: sessionStorage.getItem("timeLeft") ? parseInt(sessionStorage.getItem("timeLeft")) : config.examDuration
-            };
+        // Exam State
+        let timeLeft = config.examDuration;
+        let cheatCount = 0;
+        let examSubmitted = false;
+
+        // Generate Questions Dynamically
+        function renderQuestions() {
+            config.questions.forEach((question, index) => {
+                const group = document.createElement("div");
+                group.className = "form-group";
+                
+                const label = document.createElement("label");
+                label.htmlFor = question.id;
+                label.textContent = `${index + 1}. ${question.label}`;
+                group.appendChild(label);
+                
+                if (question.type === "text" || question.type === "email") {
+                    const input = document.createElement("input");
+                    input.type = question.type;
+                    input.id = question.id;
+                    input.name = question.id;
+                    input.required = question.required || false;
+                    group.appendChild(input);
+                } 
+                else if (question.type === "textarea") {
+                    const textarea = document.createElement("textarea");
+                    textarea.id = question.id;
+                    textarea.name = question.id;
+                    textarea.rows = 5;
+                    textarea.required = question.required || false;
+                    group.appendChild(textarea);
+                } 
+                else if (question.type === "radio") {
+                    question.options.forEach((option, i) => {
+                        const div = document.createElement("div");
+                        
+                        const input = document.createElement("input");
+                        input.type = "radio";
+                        input.id = `${question.id}_${i}`;
+                        input.name = question.id;
+                        input.value = option;
+                        input.required = question.required && i === 0;
+                        
+                        const optionLabel = document.createElement("label");
+                        optionLabel.htmlFor = `${question.id}_${i}`;
+                        optionLabel.textContent = option;
+                        optionLabel.style.marginLeft = "8px";
+                        optionLabel.style.fontWeight = "normal";
+                        
+                        div.appendChild(input);
+                        div.appendChild(optionLabel);
+                        group.appendChild(div);
+                    });
+                } 
+                else if (question.type === "checkbox") {
+                    question.options.forEach((option, i) => {
+                        const div = document.createElement("div");
+                        
+                        const input = document.createElement("input");
+                        input.type = "checkbox";
+                        input.id = `${question.id}_${i}`;
+                        input.name = question.id;
+                        input.value = option;
+                        
+                        const optionLabel = document.createElement("label");
+                        optionLabel.htmlFor = `${question.id}_${i}`;
+                        optionLabel.textContent = option;
+                        optionLabel.style.marginLeft = "8px";
+                        optionLabel.style.fontWeight = "normal";
+                        
+                        div.appendChild(input);
+                        div.appendChild(optionLabel);
+                        group.appendChild(div);
+                    });
+                }
+                
+                questionsContainer.appendChild(group);
+            });
         }
 
-        let { cheatCount, timeLeft } = initializeExam();
-
-        // Timer Functions
-        function formatTime(seconds) {
-            const minutes = Math.floor(seconds / 60);
-            const secs = seconds % 60;
-            return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
-        }
-
+        // Timer Function
         function updateTimer() {
-            timerElement.textContent = `⏳ Time Left: ${formatTime(timeLeft)}`;
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            timerElement.textContent = `⏳ Time Left: ${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
 
-            if (timeLeft <= 0) {
+            if (timeLeft <= 0 && !examSubmitted) {
                 submitForm();
                 return;
+            } else if (!examSubmitted) {
+                timeLeft--;
+                setTimeout(updateTimer, 1000);
             }
-
-            timeLeft--;
-            sessionStorage.setItem("timeLeft", timeLeft);
-            setTimeout(updateTimer, 1000);
         }
 
         // Form Submission
-        function submitForm() {
-            alert("⏳ Time is up! Submitting your exam now...");
-            examForm.submit();
-            sessionStorage.clear();
-        }
+        async function submitForm() {
+            if (examSubmitted) return;
+            examSubmitted = true;
+            
+            try {
+                const formData = {
+                    sheetId: config.sheetId,
+                    timestamp: new Date().toISOString()
+                };
+                
+                config.questions.forEach(question => {
+                    if (question.type === "checkbox") {
+                        const checkboxes = document.querySelectorAll(`input[name="${question.id}"]:checked`);
+                        formData[question.id] = Array.from(checkboxes).map(cb => cb.value).join(", ");
+                    } else {
+                        const element = document.querySelector(`[name="${question.id}"]`);
+                        if (element) formData[question.id] = element.value;
+                    }
+                });
 
-        // Cheating Prevention
-        function logCheatingAttempt() {
-            cheatCount++;
-            localStorage.setItem("cheatCount", cheatCount);
+                const response = await fetch(config.googleScriptUrl, {
+                    method: "POST",
+                    body: JSON.stringify(formData),
+                    headers: { "Content-Type": "application/json" }
+                });
 
-            if (cheatCount === config.warningThreshold) {
-                alert("⚠ Warning: You have 1 attempt remaining before the exam is submitted!");
+                const result = await response.json();
+                
+                if (result.status === "success") {
+                    examForm.style.display = "none";
+                    successMessage.style.display = "block";
+                    timerElement.textContent = "✅ Exam Submitted!";
+                } else {
+                    throw new Error(result.message || "Submission failed");
+                }
+            } catch (error) {
+                errorText.textContent = error.message;
+                errorMessage.style.display = "block";
+                examSubmitted = false;
+                
+                // Allow retry
+                timerElement.textContent = "⚠️ Time expired - Retry submission";
+                timeLeft = 60;
+                setTimeout(updateTimer, 1000);
             }
-
-            if (cheatCount >= config.maxCheatAttempts) {
-                alert("🚨 Maximum attempts exceeded. Submitting exam now.");
-                blockAccess();
-            }
         }
 
-        function blockAccess() {
-            localStorage.setItem("blocked", "true");
-            document.body.innerHTML = `
-                <div class="container">
-                    <div class="blocked-message">
-                        <h2>❌ Exam Suspended</h2>
-                        <p>You have exceeded the allowed number of tab switches.</p>
-                        <p>Please contact the administrator to reset your exam.</p>
-                    </div>
-                </div>
-            `;
-            setTimeout(() => {
-                examForm.submit();
-            }, 3000);
-        }
-
-        // Event Listeners
+        // Anti-Cheat Detection
         document.addEventListener("visibilitychange", () => {
-            if (document.hidden) {
-                logCheatingAttempt();
+            if (document.hidden && !examSubmitted) {
+                cheatCount++;
+                if (cheatCount >= config.maxCheatAttempts) {
+                    alert("🚨 Too many tab switches! Submitting now.");
+                    submitForm();
+                }
             }
         });
 
-        // Initialize
+        // Form Submission Handler
+        examForm.addEventListener("submit", (e) => {
+            e.preventDefault();
+            submitForm();
+        });
+
+        // Initialize Exam
         window.onload = function() {
-            if (localStorage.getItem("blocked") === "true") {
-                blockAccess();
-            } else {
-                // Initialize timer display immediately
-                timerElement.textContent = `⏳ Time Left: ${formatTime(timeLeft)}`;
-                // Start countdown
-                setTimeout(updateTimer, 1000);
-            }
+            renderQuestions();
+            updateTimer();
         };
     </script>
 </body>
