@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Professional Exam Portal</title>
+    <title>Professional Exam System</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -56,10 +56,6 @@
             transition: transform 0.3s ease;
         }
 
-        .exam-container:hover {
-            transform: translateY(-5px);
-        }
-
         .exam-header {
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
@@ -69,29 +65,10 @@
             overflow: hidden;
         }
 
-        .exam-header::after {
-            content: "";
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, var(--accent), rgba(255,255,255,0.5));
-        }
-
         .exam-header h1 {
             font-size: 2rem;
             font-weight: 600;
             margin-bottom: 0.5rem;
-            position: relative;
-            z-index: 1;
-        }
-
-        .exam-header p {
-            opacity: 0.9;
-            font-weight: 300;
-            position: relative;
-            z-index: 1;
         }
 
         .exam-content {
@@ -106,27 +83,8 @@
             font-weight: 600;
             box-shadow: var(--shadow-sm);
             display: inline-flex;
-            align-items: center;
             margin: 0 auto 1.5rem;
             border: 2px solid var(--light-gray);
-            transition: all 0.3s ease;
-        }
-
-        #timer.warning {
-            color: var(--warning);
-            border-color: var(--warning);
-        }
-
-        #timer.danger {
-            color: var(--error);
-            border-color: var(--error);
-            animation: pulse 1.5s infinite;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
         }
 
         .alert-box {
@@ -134,7 +92,6 @@
             margin-bottom: 1.5rem;
             border-radius: var(--radius-md);
             display: flex;
-            align-items: flex-start;
             gap: 0.75rem;
         }
 
@@ -153,29 +110,20 @@
             border-left: 4px solid var(--success);
         }
 
-        .alert-icon {
-            font-size: 1.25rem;
-            margin-top: 2px;
-        }
-
-        .alert-content {
-            flex: 1;
-        }
-
-        .alert-content h3 {
-            font-size: 1rem;
-            margin-bottom: 0.25rem;
-        }
-
         .form-group {
             margin-bottom: 1.5rem;
+            animation: fadeIn 0.5s ease forwards;
+            opacity: 0;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
         }
 
         label {
             display: block;
             margin-bottom: 0.5rem;
             font-weight: 500;
-            color: var(--text);
         }
 
         input, select, textarea {
@@ -184,41 +132,6 @@
             border: 1px solid var(--light-gray);
             border-radius: var(--radius-md);
             font-size: 1rem;
-            transition: all 0.3s ease;
-        }
-
-        input:focus, select:focus, textarea:focus {
-            outline: none;
-            border-color: var(--accent);
-            box-shadow: 0 0 0 3px rgba(72, 149, 239, 0.2);
-        }
-
-        textarea {
-            min-height: 120px;
-            resize: vertical;
-        }
-
-        .radio-group, .checkbox-group {
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-            margin-top: 0.5rem;
-        }
-
-        .radio-option, .checkbox-option {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        input[type="radio"], input[type="checkbox"] {
-            width: auto;
-            margin: 0;
-        }
-
-        .option-label {
-            font-weight: normal;
-            margin: 0;
         }
 
         .btn {
@@ -233,59 +146,9 @@
             cursor: pointer;
             margin-top: 1rem;
             transition: all 0.3s ease;
-            box-shadow: var(--shadow-sm);
         }
 
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
-        }
-
-        .btn:active {
-            transform: translateY(0);
-        }
-
-        .btn:disabled {
-            background: #adb5bd;
-            cursor: not-allowed;
-            transform: none !important;
-        }
-
-        .exam-footer {
-            text-align: center;
-            padding: 1.5rem;
-            color: #6c757d;
-            font-size: 0.875rem;
-            border-top: 1px solid var(--light-gray);
-        }
-
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .exam-header {
-                padding: 1.5rem;
-            }
-            
-            .exam-content {
-                padding: 1.5rem;
-            }
-            
-            #timer {
-                font-size: 0.875rem;
-                padding: 0.5rem 1rem;
-            }
-        }
-
-        /* Animation for form elements */
-        .form-group {
-            animation: fadeIn 0.5s ease forwards;
-            opacity: 0;
-        }
-
-        @keyframes fadeIn {
-            to { opacity: 1; }
-        }
-
-        /* Delay animations for each form group */
+        /* Delayed animations for form groups */
         .form-group:nth-child(1) { animation-delay: 0.1s; }
         .form-group:nth-child(2) { animation-delay: 0.2s; }
         .form-group:nth-child(3) { animation-delay: 0.3s; }
@@ -304,38 +167,33 @@
             <div id="timer">⏳ Time Remaining: 10:00</div>
             
             <div class="alert-box warning">
-                <div class="alert-icon">⚠️</div>
-                <div class="alert-content">
+                <div>⚠️</div>
+                <div>
                     <h3>Important Notice</h3>
-                    <p>Switching tabs or windows will be considered cheating. After 3 attempts, the exam will auto-submit.</p>
+                    <p>Switching tabs will be considered cheating. After 3 attempts, the exam will auto-submit.</p>
                 </div>
             </div>
             
             <form id="examForm">
                 <div id="questionsContainer"></div>
-                
                 <button type="submit" class="btn" id="submitBtn">Submit Exam</button>
             </form>
             
             <div id="successMessage" class="alert-box success" style="display: none;">
-                <div class="alert-icon">✅</div>
-                <div class="alert-content">
+                <div>✅</div>
+                <div>
                     <h3>Submission Successful</h3>
                     <p>Your exam has been submitted successfully.</p>
                 </div>
             </div>
             
             <div id="errorMessage" class="alert-box error" style="display: none;">
-                <div class="alert-icon">❌</div>
-                <div class="alert-content">
+                <div>❌</div>
+                <div>
                     <h3>Submission Error</h3>
                     <p id="errorText"></p>
                 </div>
             </div>
-        </div>
-        
-        <div class="exam-footer">
-            <p>© 2023 Professional Certification Board. All rights reserved.</p>
         </div>
     </div>
 
@@ -345,41 +203,37 @@
             maxCheatAttempts: 3,
             examDuration: 600, // 10 minutes
             googleScriptUrl: "https://script.google.com/macros/s/AKfycbxRjXph9lEsEUSKsvpOhfpfAz8tf08rXoNnXBlfdGai4D8MAOYZc8ZT6tSg7y_62SCsZw/exec",
-            sheetId: "1DjlKWGqIfgLMnJMF96msD1uH_0SDfvR2KCODNp-2rbw",
             questions: [
                 {
                     type: "text",
                     id: "name",
                     label: "Full Name",
-                    required: true,
-                    placeholder: "Enter your full name"
+                    required: true
                 },
                 {
                     type: "email",
                     id: "email",
                     label: "Email Address",
-                    required: true,
-                    placeholder: "your.email@example.com"
+                    required: true
                 },
                 {
                     type: "textarea",
                     id: "essay",
-                    label: "Case Study Analysis (Minimum 200 words)",
-                    required: true,
-                    placeholder: "Describe your approach to this case study..."
+                    label: "Case Study Analysis",
+                    required: true
                 },
                 {
                     type: "radio",
                     id: "difficulty",
-                    label: "How would you rate this exam's difficulty?",
+                    label: "Exam Difficulty",
                     required: true,
-                    options: ["Very Easy", "Easy", "Moderate", "Difficult", "Very Difficult"]
+                    options: ["Easy", "Medium", "Hard"]
                 },
                 {
                     type: "checkbox",
                     id: "topics",
-                    label: "Which topics were covered? (Select all that apply)",
-                    options: ["Ethics", "Technical Skills", "Case Studies", "Regulations", "Practical Applications"]
+                    label: "Topics Covered",
+                    options: ["Theory", "Practice", "Case Studies"]
                 }
             ]
         };
@@ -388,17 +242,24 @@
         const timerElement = document.getElementById("timer");
         const examForm = document.getElementById("examForm");
         const questionsContainer = document.getElementById("questionsContainer");
+        const submitBtn = document.getElementById("submitBtn");
         const successMessage = document.getElementById("successMessage");
         const errorMessage = document.getElementById("errorMessage");
         const errorText = document.getElementById("errorText");
-        const submitBtn = document.getElementById("submitBtn");
 
         // Exam State
         let timeLeft = config.examDuration;
         let cheatCount = 0;
         let examSubmitted = false;
 
-        // Generate Questions Dynamically
+        // Initialize Exam
+        function initExam() {
+            renderQuestions();
+            startTimer();
+            setupEventListeners();
+        }
+
+        // Render Questions Dynamically
         function renderQuestions() {
             config.questions.forEach((question, index) => {
                 const group = document.createElement("div");
@@ -409,32 +270,25 @@
                 label.textContent = `${index + 1}. ${question.label}`;
                 group.appendChild(label);
                 
-                if (question.type === "text" || question.type === "email") {
+                if (["text", "email"].includes(question.type)) {
                     const input = document.createElement("input");
                     input.type = question.type;
                     input.id = question.id;
                     input.name = question.id;
-                    input.required = question.required || false;
-                    if (question.placeholder) input.placeholder = question.placeholder;
+                    input.required = question.required;
                     group.appendChild(input);
                 } 
                 else if (question.type === "textarea") {
                     const textarea = document.createElement("textarea");
                     textarea.id = question.id;
                     textarea.name = question.id;
-                    textarea.rows = 6;
-                    textarea.required = question.required || false;
-                    if (question.placeholder) textarea.placeholder = question.placeholder;
+                    textarea.required = question.required;
+                    textarea.rows = 5;
                     group.appendChild(textarea);
-                } 
+                }
                 else if (question.type === "radio") {
-                    const radioGroup = document.createElement("div");
-                    radioGroup.className = "radio-group";
-                    
                     question.options.forEach((option, i) => {
-                        const optionDiv = document.createElement("div");
-                        optionDiv.className = "radio-option";
-                        
+                        const div = document.createElement("div");
                         const input = document.createElement("input");
                         input.type = "radio";
                         input.id = `${question.id}_${i}`;
@@ -444,24 +298,17 @@
                         
                         const optionLabel = document.createElement("label");
                         optionLabel.htmlFor = `${question.id}_${i}`;
-                        optionLabel.className = "option-label";
                         optionLabel.textContent = option;
+                        optionLabel.style.marginLeft = "8px";
                         
-                        optionDiv.appendChild(input);
-                        optionDiv.appendChild(optionLabel);
-                        radioGroup.appendChild(optionDiv);
+                        div.appendChild(input);
+                        div.appendChild(optionLabel);
+                        group.appendChild(div);
                     });
-                    
-                    group.appendChild(radioGroup);
-                } 
+                }
                 else if (question.type === "checkbox") {
-                    const checkboxGroup = document.createElement("div");
-                    checkboxGroup.className = "checkbox-group";
-                    
                     question.options.forEach((option, i) => {
-                        const optionDiv = document.createElement("div");
-                        optionDiv.className = "checkbox-option";
-                        
+                        const div = document.createElement("div");
                         const input = document.createElement("input");
                         input.type = "checkbox";
                         input.id = `${question.id}_${i}`;
@@ -470,45 +317,37 @@
                         
                         const optionLabel = document.createElement("label");
                         optionLabel.htmlFor = `${question.id}_${i}`;
-                        optionLabel.className = "option-label";
                         optionLabel.textContent = option;
+                        optionLabel.style.marginLeft = "8px";
                         
-                        optionDiv.appendChild(input);
-                        optionDiv.appendChild(optionLabel);
-                        checkboxGroup.appendChild(optionDiv);
+                        div.appendChild(input);
+                        div.appendChild(optionLabel);
+                        group.appendChild(div);
                     });
-                    
-                    group.appendChild(checkboxGroup);
                 }
                 
                 questionsContainer.appendChild(group);
             });
         }
 
-        // Timer Function
-        function updateTimer() {
+        // Timer Management
+        function startTimer() {
+            updateTimerDisplay();
+            
+            if (timeLeft > 0 && !examSubmitted) {
+                setTimeout(() => {
+                    timeLeft--;
+                    startTimer();
+                }, 1000);
+            } else if (!examSubmitted) {
+                submitForm();
+            }
+        }
+
+        function updateTimerDisplay() {
             const minutes = Math.floor(timeLeft / 60);
             const seconds = timeLeft % 60;
             timerElement.textContent = `⏳ Time Remaining: ${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
-
-            // Update timer style based on remaining time
-            if (timeLeft <= 60) {
-                timerElement.classList.add("danger");
-                timerElement.classList.remove("warning");
-            } else if (timeLeft <= 180) {
-                timerElement.classList.add("warning");
-                timerElement.classList.remove("danger");
-            } else {
-                timerElement.classList.remove("warning", "danger");
-            }
-
-            if (timeLeft <= 0 && !examSubmitted) {
-                submitForm();
-                return;
-            } else if (!examSubmitted) {
-                timeLeft--;
-                setTimeout(updateTimer, 1000);
-            }
         }
 
         // Form Submission
@@ -522,88 +361,83 @@
             try {
                 const formData = {
                     timestamp: new Date().toISOString(),
-                    sheetId: config.sheetId
+                    questions: config.questions.map(q => q.id),
+                    responses: {}
                 };
                 
-                // Collect all answers
+                // Collect responses
                 config.questions.forEach(question => {
                     if (question.type === "checkbox") {
-                        const checkboxes = document.querySelectorAll(`input[name="${question.id}"]:checked`);
-                        formData[question.id] = Array.from(checkboxes).map(cb => cb.value).join(", ");
+                        const checked = document.querySelectorAll(`input[name="${question.id}"]:checked`);
+                        formData.responses[question.id] = Array.from(checked).map(el => el.value);
                     } else {
                         const element = document.querySelector(`[name="${question.id}"]`);
-                        if (element) formData[question.id] = element.value;
+                        if (element) formData.responses[question.id] = element.value;
                     }
                 });
-
-                // Submit using hidden iframe method for reliability
-                const iframe = document.createElement("iframe");
-                iframe.style.display = "none";
-                document.body.appendChild(iframe);
                 
-                const form = document.createElement("form");
-                form.method = "POST";
-                form.action = config.googleScriptUrl;
-                form.target = iframe.name;
-                
-                // Add all data as hidden inputs
-                Object.keys(formData).forEach(key => {
-                    const input = document.createElement("input");
-                    input.type = "hidden";
-                    input.name = key;
-                    input.value = formData[key];
-                    form.appendChild(input);
+                // Submit using Fetch API
+                const response = await fetch(config.googleScriptUrl, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(formData)
                 });
                 
-                document.body.appendChild(form);
-                form.submit();
+                const result = await response.json();
                 
-                // Assume success (we can't verify due to CORS)
-                examForm.style.display = "none";
-                successMessage.style.display = "flex";
-                timerElement.textContent = "✅ Exam Submitted Successfully";
-                
+                if (result.status === "success") {
+                    showSuccess();
+                } else {
+                    throw new Error(result.message || "Submission failed");
+                }
             } catch (error) {
-                errorText.textContent = "Network error occurred. Your responses may still have been recorded.";
-                errorMessage.style.display = "flex";
-                examSubmitted = false;
-                submitBtn.disabled = false;
-                submitBtn.textContent = "Submit Exam";
-                
-                // Allow retry
-                timerElement.textContent = "⚠️ Please try submitting again";
-                timeLeft = 60;
-                setTimeout(updateTimer, 1000);
+                handleError(error);
             }
         }
 
-        // Anti-Cheat Detection
-        document.addEventListener("visibilitychange", () => {
-            if (document.hidden && !examSubmitted) {
-                cheatCount++;
-                
-                if (cheatCount === config.warningThreshold) {
-                    alert(`⚠️ Warning! You have 1 attempt remaining before automatic submission.`);
-                }
-                
-                if (cheatCount >= config.maxCheatAttempts) {
-                    alert("🚨 Maximum attempts exceeded! Submitting exam now.");
-                    submitForm();
-                }
-            }
-        });
+        function showSuccess() {
+            examForm.style.display = "none";
+            successMessage.style.display = "flex";
+            timerElement.textContent = "✅ Exam Submitted!";
+        }
 
-        // Form Submission Handler
-        examForm.addEventListener("submit", (e) => {
-            e.preventDefault();
-            submitForm();
-        });
+        function handleError(error) {
+            console.error("Submission error:", error);
+            errorText.textContent = error.message || "Network error occurred";
+            errorMessage.style.display = "flex";
+            
+            examSubmitted = false;
+            submitBtn.disabled = false;
+            submitBtn.textContent = "Submit Exam";
+            
+            // Allow retry
+            timeLeft = 60;
+            startTimer();
+        }
 
-        // Initialize Exam
-        window.onload = function() {
-            renderQuestions();
-            updateTimer();
-        };
+        // Event Listeners
+        function setupEventListeners() {
+            examForm.addEventListener("submit", (e) => {
+                e.preventDefault();
+                submitForm();
+            });
+            
+            document.addEventListener("visibilitychange", () => {
+                if (document.hidden && !examSubmitted) {
+                    cheatCount++;
+                    
+                    if (cheatCount >= config.maxCheatAttempts) {
+                        alert("🚨 Maximum attempts exceeded! Submitting now.");
+                        submitForm();
+                    }
+                }
+            });
+        }
+
+        // Start the exam
+        window.onload = initExam;
     </script>
 </body>
 </html>
